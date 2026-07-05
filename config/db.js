@@ -13,4 +13,14 @@ const db = mysql.createPool({
     queueLimit: 0
 });
 
+db.getConnection((err, connection) => {
+    if (err) {
+        // Ganti console.error menjadi ini agar Railway mencatat error lengkap
+        console.error('DATABASE ERROR LENGKAP:', err); 
+        return;
+    }
+    console.log('Koneksi Database BERHASIL!');
+    connection.release();
+});
+
 module.exports = db.promise();
