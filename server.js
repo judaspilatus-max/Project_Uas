@@ -1,4 +1,6 @@
+console.log("DEBUG DB_HOST:", process.env.DB_HOST);
 require('dotenv').config();
+
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
