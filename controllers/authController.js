@@ -1,5 +1,6 @@
-const bcrypt = require('bcryptjs'); 
-const jwt = require('jsonwebtoken'); 
+const db = require('../config/db'); // <-- SESUAIKAN path ini dengan lokasi file koneksi database kamu (yang isinya mysql.createPool)
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
     const { username, email, password, role } = req.body;
@@ -38,6 +39,7 @@ exports.register = async (req, res) => {
         return res.render('register', { error: `Gagal simpan ke database: ${error.message}`, success: null, user: null });
     }
 };
+
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -73,6 +75,7 @@ exports.login = async (req, res) => {
         return res.render('login', { error: 'Terjadi kesalahan sistem pada server.', success: null, user: null });
     }
 };
+
 exports.logout = (req, res) => {
     res.clearCookie('token'); 
     return res.redirect('/login');
