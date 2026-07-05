@@ -1,5 +1,5 @@
-console.log("DEBUG DB_HOST:", process.env.DB_HOST);
 require('dotenv').config();
+console.log("DEBUG DB_HOST:", process.env.DB_HOST);
 
 const express = require('express');
 const http = require('http');
