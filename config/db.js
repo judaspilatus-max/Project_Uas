@@ -1,28 +1,19 @@
-// config/db.js
-const mysql = require('mysql2');
-require('dotenv').config();
+const mysql = require('mysql2'); // atau require('mysql') sesuai library-mu
 
-// Membuat koneksi ke database MySQL menggunakan variabel di .env
-const pool = mysql.createPool({
+const db = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'Mishael120806',
+    password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'mikroskil_ecommerce',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    port: process.env.DB_PORT || 3306
 });
 
-const db = pool.promise();
-
-// Tes Koneksi Awal
-pool.getConnection((err, connection) => {
+db.connect((err) => {
     if (err) {
-        console.error('Database gagal terkoneksi, Lek! Error:', err.message);
-    } else {
-        console.log('Mantap! Database MySQL berhasil terhubung.');
-        connection.release();
+        console.error('Gagal koneksi database:', err);
+        return;
     }
+    console.log('Database MySQL Berhasil Terhubung!');
 });
 
 module.exports = db;
