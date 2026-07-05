@@ -11,4 +11,13 @@ const db = mysql.createPool({
     queueLimit: 0
 });
 
+db.getConnection((err, conn) => {
+    if (err) {
+        console.error('DATABASE GAGAL:', err);
+    } else {
+        console.log('DATABASE TERKONEKSI!');
+        conn.release();
+    }
+});
+
 module.exports = db.promise();
