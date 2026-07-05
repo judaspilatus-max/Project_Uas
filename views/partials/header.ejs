@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikroskil E-Commerce</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<nav class="navbar-custom">
+    <a href="/" class="navbar-logo">
+        🛒 Scass SHOP
+    </a>
+
+    <div class="navbar-menu-right">
+        <a href="/" class="navbar-link-item">Katalog</a>
+        <a href="/chat" class="navbar-link-item">Chat</a>
+
+        <% if (user && user.role === 'user') { %>
+            <a href="/cart" class="navbar-link-item">Keranjang</a>
+      <a href="/user/orders" class="navbar-link-item">Pesanan Saya</a>
+        <% } %>
+
+        <% if (user && user.role === 'admin') { %>
+            <a href="/admin/dashboard" class="navbar-link-item" style="color: #ffc107;">Dashboard Admin</a>
+        <% } %>
+
+        <% if (user) { %>
+           <a href="/user/profile" class="navbar-link-profile">👤 Profil (<%= user.username %>)</a>
+            <a href="/logout" class="navbar-link-logout">Logout</a>
+        <% } else { %>
+            <a href="/login" class="navbar-link-item">Login</a>
+        <% } %>
+    </div>
+</nav>
+<div class="container">

@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<div style="display: flex; justify-content: center; align-items: center; margin-top: 40px;">
+    
+    <div style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 400px;">
+        <h3 style="margin-top: 0; margin-bottom: 25px; text-align: center; color: #2c3e50; font-size: 24px; border-bottom: 2px solid #f4f6f9; padding-bottom: 15px;">Daftar Akun Baru</h3>
+    
+        <form action="/register" method="POST">
+            <div style="display: flex; flex-direction: column; gap: 18px; width: 100%;">
+                
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-weight: 600; font-size: 14px; color: #555;">Username</label>
+                    <input type="text" name="username" placeholder="Nama Kelen, Lek" required 
+                        style="width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-weight: 600; font-size: 14px; color: #555;">Email</label>
+                    <input type="email" name="email" placeholder="nama@mail.com" required 
+                        style="width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-weight: 600; font-size: 14px; color: #555;">Password</label>
+                    <input type="password" name="password" placeholder="Buat password rumit..." required 
+                        style="width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; outline: none; box-sizing: border-box;">
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="font-weight: 600; font-size: 14px; color: #555;">Daftar Sebagai</label>
+                    <select name="role" style="width: 100%; padding: 11px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background-color: #fff; outline: none; cursor: pointer; box-sizing: border-box;">
+                        <option value="user">Pembeli Biasa</option>
+                        <option value="admin">Admin Toko</option>
+                    </select>
+                </div>
+                
+                <button type="submit" 
+                    style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 10px;">
+                    Register Akun
+                </button>
+                
+            </div>
+        </form>
+
+        <p style="text-align: center; margin-top: 25px; font-size: 14px; color: #666;">
+            Sudah punya akun? <a href="/login" style="color: #28a745; text-decoration: none; font-weight: bold;">Masuk ke Toko</a>
+        </p>
+    </div>
+
+</div>
+
+<%- include('partials/footer') %>

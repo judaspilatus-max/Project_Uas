@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="max-width: 1000px; margin: 40px auto; padding: 0 20px; min-height: 70vh;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 10px; margin-bottom: 30px;">📦 Status Pesanan Belanjaanmu</h2>
+
+    <% if (orders.length === 0) { %>
+        <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 8px;">
+            <p style="font-size: 17px; color: #777;">Kau belum pernah beli barang apa-pun di toko ini, Lek.</p>
+        </div>
+    <% } else { %>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <% orders.forEach(order => { %>
+                <div style="background: white; border: 1px solid #eef2f5; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center;">
+                    
+                    <div>
+                        <span style="font-size: 13px; color: #aaa;">ID Order: #<%= order.id %></span>
+                        <p style="margin: 5px 0; font-size: 15px; color: #555;">Waktu Transaksi: <strong><%= order.created_at.toLocaleString('id-ID') %></strong></p>
+                        <p style="margin: 5px 0; font-size: 16px; color: #2c3e50;">Total Belanja: <strong style="color: #e74c3c;">Rp <%= order.total_price.toLocaleString('id-ID') %></strong></p>
+                    </div>
+
+                    <div>
+                        <% if (order.status === 'pending') { %>
+                            <span style="background: #ffeaa7; color: #d63031; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px;">
+                                ⏳ Menunggu Konfirmasi Toko
+                            </span>
+                        <% } else if (order.status === 'success') { %>
+                            <span style="background: #c2f0c2; color: #27ae60; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px;">
+                                 Pesanan Sukses / Lunas
+                            </span>
+                        <% } else { %>
+                            <span style="background: #dfe6e9; color: #2d3436; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px;">
+                                <%= order.status.toUpperCase() %>
+                            </span>
+                        <% } %>
+                    </div>
+
+                </div>
+            <% }) %>
+        </div>
+
+    <% } %>
+</div>
+<%- include('../partials/footer') %>

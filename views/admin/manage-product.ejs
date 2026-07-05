@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; gap: 20px; margin-bottom: 20px;">
+    <a href="/admin/dashboard" style="padding: 10px 15px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">📦 List Pesanan Masuk</a>
+    <a href="/admin/manage-products" style="padding: 10px 15px; background: #343a40; color: white; text-decoration: none; border-radius: 5px;">⚙️ Kelola CRUD Produk</a>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Manajemen Stok Produk Toko</h2>
+    <a href="/admin/add-product" style="padding: 10px 20px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">+ Tambah Produk Baru</a>
+</div>
+
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 2px solid #ddd; background: #f1f1f1;">
+                <th style="padding: 10px;">Foto</th>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(item => { %>
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 10px;">
+                        <img src="/uploads/<%= item.image %>" width="50" height="50" style="object-fit: cover; border-radius: 5px;">
+                    </td>
+                    <td><strong><%= item.name %></strong></td>
+                    <td>Rp <%= item.price.toLocaleString() %></td>
+                    <td><%= item.stock %> pcs</td>
+                    <td>
+                        <a href="/products/edit/<%= item.id %>" style="color: #007bff; text-decoration: none; font-weight: bold; margin-right: 15px;">Edit</a>
+                        
+                        <!-- TOMBOL HAPUS BAWAAN KAU -->
+                        <a href="/products/delete/<%= item.id %>" onclick="return confirm('Yakin mau hapus produk ini, Lek?')" style="color: #dc3545; text-decoration: none; font-weight: bold;">Hapus</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,90 @@
+<%- include('../partials/header') %>
+
+<div class="container-admin-chat" style="max-width: 1000px; margin: 40px auto; padding: 20px;">
+    <div class="chat-wrapper" style="display: grid; grid-template-columns: 300px 1fr; background: #fff; border: 1px solid #eef2f5; border-radius: 12px; height: 600px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        
+        <!-- SISI KIRI: DAFTAR USER YANG CHAT -->
+        <div class="chat-sidebar" style="border-right: 1px solid #eef2f5; background: #f8f9fa; padding: 15px;">
+            <h3 style="font-size: 16px; margin: 0 0 15px 0; color: #2c3e50;">💬 Sesi Chat Masuk</h3>
+            <div id="user-list" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Contoh User Aktif, nanti bisa di-render dinamis -->
+                <div class="user-item active" style="padding: 10px; background: #007bff; color: white; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                    👤 Customer / User
+                </div>
+            </div>
+        </div>
+
+        <!-- SISI KANAN: ROOM CHAT UTAMA -->
+        <div class="chat-area" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <!-- Header Chat -->
+            <div class="chat-header" style="padding: 15px 20px; border-bottom: 1px solid #eef2f5; background: #fff;">
+                <h4 style="margin: 0; color: #2c3e50;">Admin Mode: Membalas Pesan</h4>
+            </div>
+
+            <!-- Tempat Pesan Masuk & Keluar -->
+            <div id="kotak-pesan" style="flex: 1; padding: 20px; overflow-y: auto; background: #fdfdfd; display: flex; flex-direction: column; gap: 12px;">
+                <div style="text-align: center; color: #aaa; font-size: 13px;">Sistem: Terhubung ke ruang chat utama Mikroskil Shop</div>
+            </div>
+
+            <!-- Form Input Kirim Chat -->
+            <form id="form-chat-admin" style="padding: 15px 20px; border-top: 1px solid #eef2f5; display: flex; gap: 10px; background: #fff;">
+                <input 
+                    type="text" 
+                    id="input-pesan-admin" 
+                    placeholder="Ketik balasan kau di sini, Lek..." 
+                    required 
+                    style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 6px; outline: none;"
+                >
+                <button type="submit" style="padding: 12px 25px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                    Kirim
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- SCRIPT WEBSOCKET SOCKET.IO -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const formChat = document.getElementById('form-chat-admin');
+    const inputPesan = document.getElementById('input-pesan-admin');
+    const kotakPesan = document.getElementById('kotak-pesan');
+
+    // Ambil data nama admin dari session EJS kau Lek
+    const namaPengirim = "<%= user ? user.name : 'Admin Toko' %>";
+
+    // 1. Logika saat form dikirim (Kirim Pesan ke Server)
+    formChat.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (inputPesan.value.trim() !== '') {
+            socket.emit('kirim-pesan', {
+                sender: namaPengirim,
+                message: inputPesan.value
+            });
+            inputPesan.value = '';
+        }
+    });
+
+    // 2. Mendengarkan pesan masuk dari server WebSocket
+    socket.on('terima-pesan', (data) => {
+        const elemenPesan = document.createElement('div');
+        
+        // Atur posisi bubble chat (Kanan kalau dari admin sendiri, kiri kalau dari orang lain)
+        if (data.sender === namaPengirim) {
+            elemenPesan.style = "align-self: flex-end; background: #d4edda; color: #155724; padding: 10px 14px; border-radius: 12px 12px 0 12px; max-width: 70%; word-wrap: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.02);";
+        } else {
+            elemenPesan.style = "align-self: flex-start; background: #e2e3e5; color: #383d41; padding: 10px 14px; border-radius: 12px 12px 12px 0; max-width: 70%; word-wrap: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.02);";
+        }
+
+        elemenPesan.innerHTML = `<strong style="font-size: 12px; display: block; margin-bottom: 2px;">${data.sender}</strong> ${data.message}`;
+        kotakPesan.appendChild(elemenPesan);
+        
+        // Auto scroll ke bawah tiap ada pesan baru
+        kotakPesan.scrollTop = kotakPesan.scrollHeight;
+    });
+</script>
+
+<%- include('../partials/footer') %>
