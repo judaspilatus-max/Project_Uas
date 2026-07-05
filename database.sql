@@ -1,4 +1,3 @@
--- 1. Membuat Database Baru
 CREATE DATABASE IF NOT EXISTS mikroskil_ecommerce;
 USE mikroskil_ecommerce;
 
