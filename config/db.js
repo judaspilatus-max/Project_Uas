@@ -1,26 +1,26 @@
 const mysql = require('mysql2');
 
-// Ubah dari createConnection menjadi createPool
+require('dotenv').config();
+
 const db = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'Mishael120806',
-    database: process.env.DB_NAME || 'railway', // Pastikan namanya mengarah ke database 'railway' yang benar
-    port: process.env.DB_PORT || 3306,
+    host: process.env.DB_HOST || process.env.MYSQLHOST,
+    user: process.env.DB_USER || process.env.MYSQLUSER,
+    password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD,
+    database: process.env.DB_NAME || process.env.MYSQLDATABASE || 'railway',
+    port: process.env.DB_PORT || process.env.MYSQLPORT || 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
 
-// Tes koneksi pool saat server pertama kali berjalan
+
 db.getConnection((err, connection) => {
     if (err) {
-        console.error('Gagal mendapatkan koneksi dari Pool:', err);
+        console.error('DATABASE ERROR:', err.message);
         return;
     }
-    console.log('Database MySQL Berhasil Terhubung Menggunakan Pool!');
-    connection.release(); // Jangan lupa kembalikan koneksi ke pool setelah dites
+    console.log('Koneksi ke Database Cloud Railway Sukses Terbuka!');
+    connection.release();
 });
 
-// Gunakan metode .promise() jika kode route kamu memakai async/await
 module.exports = db.promise();
